@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  hermes-core:
+    image: hermes-ai/core:latest # Placeholder image
+    container_name: hermes-core
+    restart: always
+    env_file: .env
+    volumes:
+      - ./config:/app/config
+      - hermes_data:/app/data
+    depends_on:
+      - memory-db
+    networks:
+      - hermes-net
+
+  memory-db:
+    image: chromadb/chroma:latest
+    container_name: memory-db
+    restart: always
+    volumes:
+      - chroma_data:/chroma/chroma
+    networks:
+      - hermes-net
+
+  discord-bridge:
+    image: hermes-ai/discord-bridge:latest # Placeholder image
+    container_name: discord-bridge
+    restart: always
+    env_file: .env
+    networks:
+      - hermes-net
+
+  telegram-bridge:
+    image: hermes-ai/telegram-bridge:latest # Placeholder image
+    container_name: telegram-bridge
+    restart: always
+    env_file: .env
+    networks:
+      - hermes-net
+
+  signal-bridge:
+    image: bbernhard/signal-cli-rest-api:latest
+    container_name: signal-bridge
+    restart: always
+    environment:
+      - MODE=json-rpc
+    volumes:
+      - signal_data:/home/signalcli
+    ports:
+      - "8080:8080"
+    networks:
+      - hermes-net
+
+networks:
+  hermes-net:
+    driver: bridge
+
+volumes:
+  hermes_data:
+  chroma_data:
+  signal_data:
