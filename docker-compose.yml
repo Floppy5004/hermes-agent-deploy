@@ -39,19 +39,6 @@ services:
     networks:
       - hermes-net
 
-  signal-bridge:
-    image: bbernhard/signal-cli-rest-api:latest
-    container_name: signal-bridge
-    restart: always
-    environment:
-      - MODE=json-rpc
-    volumes:
-      - signal_data:/home/signalcli
-    ports:
-      - "8080:8080"
-    networks:
-      - hermes-net
-
 networks:
   hermes-net:
     driver: bridge
@@ -59,4 +46,3 @@ networks:
 volumes:
   hermes_data:
   chroma_data:
-  signal_data:

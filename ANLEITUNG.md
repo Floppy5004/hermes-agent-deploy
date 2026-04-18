@@ -31,12 +31,7 @@ Nachdem der Server gestartet ist (dauert ca. 5-10 Min.), musst du deine Keys ein
 5. Speichere die Datei (`Strg+O`, `Enter`, `Strg+X`).
 6. Starte den Agenten neu: `docker-compose restart`
 
-## 📱 Schritt 4: Signal-Kopplung (Einmalig)
-Signal benötigt eine Telefonnummer-Verifizierung:
-1. Führe im SSH-Terminal folgenden Befehl aus:
-   `docker exec -it signal-bridge signal-cli link`
-2. Folge den Anweisungen auf dem Bildschirm, um dein Signal-Konto auf dem Handy zu koppeln (QR-Code oder SMS).
-
 ## 🛠️ Fehlerbehebung
 - **Logs prüfen:** `docker-compose logs -f`
 - **Neustart:** `docker-compose down && docker-compose up -d`
+
