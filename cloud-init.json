@@ -2,8 +2,15 @@
   "write_files": [
     {
       "path": "/root/setup.sh",
-      "content": "#!/bin/bash\n\n# Setup script for Hermes AI Agent on Hetzner Cloud\necho \"Starting Hermes Agent setup...\"\n\n# Update and upgrade system\napt-get update && apt-get upgrade -y\n\n# Install dependencies\napt-get install -y docker.io docker-compose git\n\n# Create application directory\nmkdir -p /opt/hermes-agent\ncd /opt/hermes-agent\n\n# Clone the repository\ngit clone https://github.com/Floppy5004/hermes-agent-deploy.git .\n\n# Create .env file from example\nif [ ! -f .env ]; then\n    cp .env.example .env\nfi\n\n# Start services\ndocker-compose up -d\n\necho \"Installation complete.\""
+      "content": "#!/bin/bash\n\n# Setup script for Hermes AI Agent on Hetzner Cloud\nset -e\necho \"Starting Hermes Agent setup...\"\n\napt-get update && apt-get upgrade -y\napt-get install -y docker.io docker-compose-plugin git\n\n# Create application directory\nmkdir -p /opt/hermes-agent\ncd /opt/hermes-agent\n\n# Clone the repository\ngit clone https://github.com/Floppy5004/hermes-agent-deploy.git /tmp/hermes-repo\ncp -r /tmp/hermes-repo/. .\nrm -rf /tmp/hermes-repo\n\n# Create .env file from example\nif [ ! -f .env ]; then cp .env.example .env; fi\n\n# Start services\ndocker compose up -d\n\necho \"Installation complete.\""
     }
+  ],
+  "runcmd": [
+    "chmod +x /root/setup.sh",
+    "/root/setup.sh"
+  ]
+}
+
   ],
   "runcmd": [
     "chmod +x /root/setup.sh",

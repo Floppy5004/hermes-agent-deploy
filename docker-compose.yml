@@ -5,6 +5,7 @@ services:
     image: hermes-ai/core:latest # Placeholder image
     container_name: hermes-core
     restart: always
+    user: "1000:1000"
     env_file: .env
     volumes:
       - ./config:/app/config
@@ -13,20 +14,23 @@ services:
       - memory-db
     networks:
       - hermes-net
+      - backend-net
 
   memory-db:
     image: chromadb/chroma:latest
     container_name: memory-db
     restart: always
+    user: "1000:1000"
     volumes:
       - chroma_data:/chroma/chroma
     networks:
-      - hermes-net
+      - backend-net
 
   discord-bridge:
     image: hermes-ai/discord-bridge:latest # Placeholder image
     container_name: discord-bridge
     restart: always
+    user: "1000:1000"
     env_file: .env
     networks:
       - hermes-net
@@ -35,6 +39,7 @@ services:
     image: hermes-ai/telegram-bridge:latest # Placeholder image
     container_name: telegram-bridge
     restart: always
+    user: "1000:1000"
     env_file: .env
     networks:
       - hermes-net
@@ -42,6 +47,8 @@ services:
 networks:
   hermes-net:
     driver: bridge
+  backend-net:
+    internal: true
 
 volumes:
   hermes_data:
