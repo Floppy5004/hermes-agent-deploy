@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   hermes-core:
-    image: hermes-ai/core:latest # Placeholder image
+    build: 
+      context: ./hermes-agent
+      dockerfile: Dockerfile 
     container_name: hermes-core
     restart: always
     user: "1000:1000"
@@ -27,7 +29,8 @@ services:
       - backend-net
 
   discord-bridge:
-    image: hermes-ai/discord-bridge:latest # Placeholder image
+    build:
+      context: ./hermes-agent-bridges/discord
     container_name: discord-bridge
     restart: always
     user: "1000:1000"
@@ -36,7 +39,8 @@ services:
       - hermes-net
 
   telegram-bridge:
-    image: hermes-ai/telegram-bridge:latest # Placeholder image
+    build:
+      context: ./hermes-agent-bridges/telegram
     container_name: telegram-bridge
     restart: always
     user: "1000:1000"

@@ -14,10 +14,14 @@ apt-get install -y docker.io docker-compose-plugin git
 mkdir -p /opt/hermes-agent
 cd /opt/hermes-agent
 
-# Clone the repository (Ensuring directory is handled correctly)
-git clone https://github.com/Floppy5004/hermes-agent-deploy.git /tmp/hermes-repo
-cp -r /tmp/hermes-repo/. .
-rm -rf /tmp/hermes-repo
+# Clone the deployment repository
+git clone https://github.com/Floppy5004/hermes-agent-deploy.git /tmp/deploy-repo
+cp -r /tmp/deploy-repo/. .
+rm -rf /tmp/deploy-repo
+
+# Clone the Original Hermes Agent Repository for the core build
+echo "Cloning original Hermes Agent core..."
+git clone https://github.com/nousresearch/hermes-agent.git /opt/hermes-agent/hermes-agent
 
 # Create .env file from example
 if [ ! -f .env ]; then
@@ -25,8 +29,9 @@ if [ ! -f .env ]; then
     echo "Created .env file from .env.example. Please edit it with your API keys."
 fi
 
-# Start services using modern docker compose
-docker compose up -d
+# Build and Start services
+echo "Building and starting services..."
+docker compose up -d --build
 
 echo "Installation complete. Agent is starting in background."
 echo "Next step: Edit /opt/hermes-agent/.env and restart with 'docker compose restart'"
